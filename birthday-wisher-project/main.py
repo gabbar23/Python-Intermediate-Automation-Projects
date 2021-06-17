@@ -5,7 +5,7 @@ import datetime as dt
 
 letter_list = []
 myemail = "gabbar78dummy@gmail.com"
-mypass = "78numV!54$+MmE"
+mypass = ""
 
 # Retrieving-Letters
 
