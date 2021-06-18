@@ -29,11 +29,13 @@ auth_token = config["ACC_TOKEN"]
 def stock_price():
     global difference
     stock = requests.get(url=STOCK_API, params=para_stock)
+
     stock.raise_for_status()
     today = (date.today())
     yesterday = (today - timedelta(days=1))
     test = str(today - timedelta(days=2))
-    data = stock.json()["Time Series (Daily)"]
+    data_2 = stock.json()
+    data=data_2["Time Series (Daily)"]
     data_list = [value for (key, value) in data.items()]
     today_close = data_list[0]["4. close"]
     yesterday_close = data_list[1]["4. close"]
@@ -42,9 +44,10 @@ def stock_price():
     return (price_change)
 
 
-print(stock_price())
+stock_info=stock_price()
+
 # Main-Program
-if stock_price() >= .1:
+if stock_info >= .1:
     client = Client(account_sid, auth_token)
     news = requests.get(url=news_api, params=news_para)
     title = news.json()["articles"][:3][1]["title"]
@@ -52,18 +55,18 @@ if stock_price() >= .1:
     if difference >=0:
         message = client.messages \
             .create(
-            body=f"TESLA: 🔺{abs(stock_price())}\nHeadline : {title} \nBrief : {des}",
+            body=f"TESLA: 🔺{abs(stock_info)}\nHeadline : {title} \nBrief : {des}",
             from_='+17342594666',
             to='+918837679689'
         )
-        print(f"TESLA: 🔺{abs(stock_price())}\n Headline : {title} \nBrief : {des}")
+        print(f"TESLA: 🔺{abs(stock_info)}\n Headline : {title} \nBrief : {des}")
     elif difference <=0:
         message = client.messages \
             .create(
-            body=f"TESLA: 🔻{abs(stock_price())}\nHeadline : {title} \nBrief : {des}",
+            body=f"TESLA: 🔻{abs(stock_info)}\nHeadline : {title} \nBrief : {des}",
             from_='+17342594666',
             to='+918837679689'
         )
-        print(f"TESLA: 🔻{abs(stock_price())}\n {title} \n {des}")
+        print(f"TESLA: 🔻{abs(stock_info)}\n {title} \n {des}")
 
     print(message.status)
