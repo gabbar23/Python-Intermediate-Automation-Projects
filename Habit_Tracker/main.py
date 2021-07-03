@@ -1,12 +1,18 @@
 import requests
 from datetime import datetime
+from dotenv import dotenv_values
 
-today=datetime.now()
+
+
+config = dotenv_values(".env")
+
 
 #creating-a-user
-CREATE_USER_ENDPOINT=" https://pixe.la/v1/users"
-USERNAME="gabbar23"
-TOKEN="hQpo9Oit6Yg69JHreHUS6GUG7"
+CREATE_USER_ENDPOINT=config["USER_ENDPOINT"]
+USERNAME=config["USERNAME_"]
+TOKEN=config["TOKEN_"]
+
+
 create_user_para={
     "token":TOKEN,
     "username":USERNAME,
